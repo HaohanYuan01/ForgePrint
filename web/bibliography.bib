@@ -1,9 +1,503 @@
-@inproceedings{vaswani2017attention,
-  title     = {Attention is All You Need},
-  author    = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, {\L}ukasz and Polosukhin, Illia},
+% Copied from the paper's bib/ so the page never re-types a reference.
+% rehype-citation only emits entries that are actually cited.
+
+% ---- bib\baselines.bib ----
+
+@inproceedings{shen2025seek,
+  title     = {Enhancing {LLM} Watermark Resilience Against Both Scrubbing and Spoofing Attacks},
+  author    = {Shen, Huanming and Huang, Baizhou and Wan, Xiaojun},
   booktitle = {Advances in Neural Information Processing Systems},
-  volume    = {30},
-  pages     = {5998--6008},
-  year      = {2017},
-  url       = {https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf}
+  volume    = {38},
+  year      = {2025}
+}
+
+@inproceedings{zhang2025decoupled,
+  title     = {A Decoupled Multi-Agent Framework for Complex Text Style Transfer},
+  author    = {Zhang, Lingxi and Chuang, Yu-Neng and Wang, Guanchu and Tang, Ruixiang and Cai, Xuanting and Shenoy, Rajesh and Hu, Xia},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2025},
+  pages     = {21393--21403},
+  year      = {2025}
+}
+
+@inproceedings{reif2022recipe,
+  title     = {A Recipe for Arbitrary Text Style Transfer with Large Language Models},
+  author    = {Reif, Emily and Ippolito, Daphne and Yuan, Ann and Coenen, Andy and Callison-Burch, Chris and Wei, Jason},
+  editor    = {Muresan, Smaranda and Nakov, Preslav and Villavicencio, Aline},
+  booktitle = {Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)},
+  month     = {May},
+  year      = {2022},
+  address   = {Dublin, Ireland},
+  publisher = {Association for Computational Linguistics},
+  pages     = {837--848}
+}
+
+@inproceedings{suzgun2022promptrerank,
+  title     = {{Prompt-and-Rerank}: A Method for Zero-Shot and Few-Shot Arbitrary Textual Style Transfer with Small Language Models},
+  author    = {Suzgun, Mirac and Melas-Kyriazi, Luke and Jurafsky, Dan},
+  editor    = {Goldberg, Yoav and Kozareva, Zornitsa and Zhang, Yue},
+  booktitle = {Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing},
+  month     = {December},
+  year      = {2022},
+  address   = {Abu Dhabi, United Arab Emirates},
+  publisher = {Association for Computational Linguistics},
+  pages     = {2195--2222}
+}
+
+@inproceedings{horvitz2024tinystyler,
+  title={TinyStyler: Efficient few-shot text style transfer with authorship embeddings},
+  author={Horvitz, Zachary and Patel, Ajay and Singh, Kanishk and Callison-Burch, Chris and McKeown, Kathleen and Yu, Zhou},
+  booktitle={Findings of the Association for Computational Linguistics: EMNLP 2024},
+  pages={13376--13390},
+  year={2024}
+}
+
+
+@inproceedings{krishna2023paraphrasing,
+  title     = {Paraphrasing Evades Detectors of {AI}-Generated Text, but Retrieval is an Effective Defense},
+  author    = {Krishna, Kalpesh and Song, Yixiao and Karpinska, Marzena and Wieting, John and Iyyer, Mohit},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {36},
+  year      = {2023},
+  pages     = {27469--27500}
+}
+
+% Training-algorithm references named in Section 4 and Figure 2.
+% Verified 2026-09-17 against arXiv:2305.18290 and arXiv:2402.03300.
+@inproceedings{rafailov2023dpo,
+  title     = {Direct Preference Optimization: Your Language Model is Secretly a Reward Model},
+  author    = {Rafailov, Rafael and Sharma, Archit and Mitchell, Eric and Ermon, Stefano and Manning, Christopher D. and Finn, Chelsea},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {36},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2305.18290}
+}
+
+@article{shao2024deepseekmath,
+  title   = {{DeepSeekMath}: Pushing the Limits of Mathematical Reasoning in Open Language Models},
+  author  = {Shao, Zhihong and Wang, Peiyi and Zhu, Qihao and Xu, Runxin and Song, Junxiao and Bi, Xiao and Zhang, Haowei and Zhang, Mingchuan and Li, Y. K. and Wu, Y. and Guo, Daya},
+  journal = {arXiv preprint arXiv:2402.03300},
+  year    = {2024}
+}
+
+@misc{anthropic2026threatreport,
+  title        = {Countering Misuse of {AI}: September 2026},
+  author       = {{Anthropic}},
+  year         = {2026},
+  month        = {September},
+  howpublished = {\url{https://www.anthropic.com/threat-intelligence-report-september-2026}},
+  note         = {Threat intelligence report}
+}
+
+
+@inproceedings{pasquini2025llmmap,
+  title  = {{LLMmap}: Fingerprinting for Large Language Models},
+  author = {Pasquini, Dario and Kornaropoulos, Evgenios M. and Ateniese, Giuseppe},
+  year   = {2025},
+  booktitle = {USENIX Security Symposium}
+}
+
+@inproceedings{hu2026llmprint,
+  title  = {Fingerprinting {LLMs} via Prompt Injection},
+  author = {Hu, Yuepeng and Jiang, Zhengyuan and Li, Mengyuan and Ahmed, Osama and Huang, Zhicong and Hong, Cheng and Gong, Neil},
+  year   = {2026},
+  booktitle = {Proceedings of the Annual Meeting of the Association for Computational Linguistics}
+}
+
+@inproceedings{sun2025idiosyncrasies,
+  title   = {Idiosyncrasies in Large Language Models},
+  author  = {Sun, Mingjie and Yin, Yida and Xu, Zhiqiu and Kolter, J. Zico and Liu, Zhuang},
+  year    = {2025},
+  booktitle = {International Conference on Machine Learning}
+}
+
+@inproceedings{gloaguen2025spoofing,
+  title  = {Discovering Spoofing Attempts on Language Model Watermarks},
+  author = {Gloaguen, Thibaud and Jovanovic, Nikola and Staab, Robin and Vechev, Martin},
+  year   = {2025},
+  booktitle = {International Conference on Machine Learning}
+}
+@inproceedings{gong2019rl,
+  title     = {Reinforcement Learning Based Text Style Transfer without Parallel Training Corpus},
+  author    = {Gong, Hongyu and Bhat, Suma and Wu, Lingfei and Xiong, Jinjun and Hwu, Wen-mei},
+  booktitle = {Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics (NAACL-HLT)},
+  year      = {2019},
+}
+
+@article{david2025authormist,
+  title={Authormist: Evading ai text detectors with reinforcement learning},
+  author={David, Isaac and Gervais, Arthur},
+  journal={arXiv preprint arXiv:2503.08716},
+  year={2025}
+}
+
+% ---- bib\extra.bib ----
+@inproceedings{dong2024survey,
+  title={A survey on in-context learning},
+  author={Dong, Qingxiu and Li, Lei and Dai, Damai and Zheng, Ce and Ma, Jingyuan and Li, Rui and Xia, Heming and Xu, Jingjing and Wu, Zhiyong and Chang, Baobao and others},
+  booktitle={Proceedings of the 2024 conference on empirical methods in natural language processing},
+  pages={1107--1128},
+  year={2024}
+}
+
+
+@inproceedings{tang2024minicheck,
+  title={Minicheck: Efficient fact-checking of llms on grounding documents},
+  author={Tang, Liyan and Laban, Philippe and Durrett, Greg},
+  booktitle={Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing},
+  pages={8818--8847},
+  year={2024}
+}
+
+@misc{google_gemini_api,
+  author       = {{Google}},
+  title        = {Gemini API: Gemini 2.5 Flash-Lite},
+  howpublished = {\url{https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-lite}},
+  year         = {2026}
+}
+
+@misc{anthropic_claude_api,
+  author       = {{Anthropic}},
+  title        = {Claude API Documentation},
+  howpublished = {\url{https://docs.anthropic.com/}},
+  year         = {2026}
+}
+
+@misc{xai_api,
+  author       = {{xAI}},
+  title        = {xAI API Documentation},
+  howpublished = {\url{https://docs.x.ai/}},
+  year         = {2026}
+}
+
+@misc{openai_api,
+  author       = {{OpenAI}},
+  title        = {OpenAI API Documentation},
+  howpublished = {\url{https://platform.openai.com/docs/}},
+  year         = {2026}
+}
+@inproceedings{yuan2025domainsum,
+  title={Domainsum: A hierarchical benchmark for fine-grained domain shift in abstractive text summarization},
+  author={Yuan, Haohan and Zhang, Haopeng},
+  booktitle={Findings of the Association for Computational Linguistics: NAACL 2025},
+  pages={2219--2231},
+  year={2025}
+}
+
+
+
+
+@inproceedings{papernot2017practical,
+  title={Practical black-box attacks against machine learning},
+  author={Papernot, Nicolas and McDaniel, Patrick and Goodfellow, Ian and Jha, Somesh and Celik, Z Berkay and Swami, Ananthram},
+  booktitle={Proceedings of the 2017 ACM on Asia conference on computer and communications security},
+  pages={506--519},
+  year={2017}
+}
+
+@inproceedings{liu2022makes,
+  title={What makes good in-context examples for GPT-3?},
+  author={Liu, Jiachang and Shen, Dinghan and Zhang, Yizhe and Dolan, William B and Carin, Lawrence and Chen, Weizhu},
+  booktitle={Proceedings of Deep Learning Inside Out (DeeLIO 2022): The 3rd workshop on knowledge extraction and integration for deep learning architectures},
+  pages={100--114},
+  year={2022}
+}
+
+
+@article{ouyang2022training,
+  title={Training language models to follow instructions with human feedback},
+  author={Ouyang, Long and Wu, Jeffrey and Jiang, Xu and Almeida, Diogo and Wainwright, Carroll and Mishkin, Pamela and Zhang, Chong and Agarwal, Sandhini and Slama, Katarina and Ray, Alex and others},
+  journal={Advances in neural information processing systems},
+  volume={35},
+  pages={27730--27744},
+  year={2022}
+}
+
+
+
+
+@inproceedings{ICLR2026_30b28eb8,
+ author = {Tan, Zhen and Zhao, Chengshuai and Wang, Song and Li, Jundong and Chen, Tianlong and liu, huan},
+ booktitle = {International Conference on Learning Representations},
+ editor = {C. Vondrick and B. Hariharan and C. Raffel and L. Pinto and D. Yang and A. Faust},
+ pages = {28684--28724},
+ title = {Probing to Refine: Reinforcement Distillation of LLM Reasoners via Explanatory Inversion},
+ volume = {2026},
+ year = {2026}
+}
+
+@article{brennan2012adversarial,
+  title   = {Adversarial Stylometry: Circumventing Authorship Recognition to Preserve Privacy and Anonymity},
+  author  = {Brennan, Michael and Afroz, Sadia and Greenstadt, Rachel},
+  journal = {ACM Transactions on Information and System Security},
+  volume  = {15},
+  number  = {3},
+  year    = {2012}
+}
+
+@inproceedings{shetty2018a4nt,
+  title     = {{A4NT}: Author Attribute Anonymity by Adversarial Training of Neural Machine Translation},
+  author    = {Shetty, Rakshith and Schiele, Bernt and Fritz, Mario},
+  booktitle = {USENIX Security Symposium},
+  year      = {2018}
+}
+
+@inproceedings{uchendu2020authorship,
+  title     = {Authorship Attribution for Neural Text Generation},
+  author    = {Uchendu, Adaku and Le, Thai and Shu, Kai and Lee, Dongwon},
+  booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2020}
+}
+
+@article{sadasivan2023can,
+  title   = {Can {AI}-Generated Text be Reliably Detected?},
+  author  = {Sadasivan, Vinu Sankar and Kumar, Aounon and Balasubramanian, Sriram and Wang, Wenxiao and Feizi, Soheil},
+  journal = {arXiv preprint arXiv:2303.11156},
+  year    = {2023}
+}
+
+@inproceedings{gao2025model,
+  title     = {Model Equality Testing: Which Model Is This {API} Serving?},
+  author    = {Gao, Irena and Liang, Percy and Guestrin, Carlos},
+  booktitle = {International Conference on Learning Representations},
+  year      = {2025}
+}
+
+@article{cai2025getting,
+  title   = {Are You Getting What You Pay For? Auditing Model Substitution in {LLM} {API}s},
+  author  = {Cai, Will and Shi, Tianneng and Zhao, Xuandong and Song, Dawn},
+  journal = {arXiv preprint arXiv:2504.04715},
+  year    = {2025}
+}
+
+@inproceedings{hermann2015teaching,
+  title     = {Teaching Machines to Read and Comprehend},
+  author    = {Hermann, Karl Moritz and Ko{\v{c}}isk{\'y}, Tom{\'a}{\v{s}} and Grefenstette, Edward and Espeholt, Lasse and Kay, Will and Suleyman, Mustafa and Blunsom, Phil},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2015}
+}
+
+@inproceedings{cohan2018discourse,
+  title     = {A Discourse-Aware Attention Model for Abstractive Summarization of Long Documents},
+  author    = {Cohan, Arman and Dernoncourt, Franck and Kim, Doo Soon and Bui, Trung and Kim, Seokhwan and Chang, Walter and Goharian, Nazli},
+  booktitle = {Proceedings of NAACL-HLT},
+  year      = {2018}
+}
+
+@inproceedings{gliwa2019samsum,
+  title     = {{SAMSum} Corpus: A Human-annotated Dialogue Dataset for Abstractive Summarization},
+  author    = {Gliwa, Bogdan and Mochol, Iwona and Biesek, Maciej and Wawer, Aleksander},
+  booktitle = {Proceedings of the 2nd Workshop on New Frontiers in Summarization},
+  year      = {2019}
+}
+
+@article{koupaee2018wikihow,
+  title   = {{WikiHow}: A Large Scale Text Summarization Dataset},
+  author  = {Koupaee, Mahnaz and Wang, William Yang},
+  journal = {arXiv preprint arXiv:1810.09305},
+  year    = {2018}
+}
+
+@article{liu2019roberta,
+  title   = {{RoBERTa}: A Robustly Optimized {BERT} Pretraining Approach},
+  author  = {Liu, Yinhan and Ott, Myle and Goyal, Naman and Du, Jingfei and Joshi, Mandar and Chen, Danqi and Levy, Omer and Lewis, Mike and Zettlemoyer, Luke and Stoyanov, Veselin},
+  journal = {arXiv preprint arXiv:1907.11692},
+  year    = {2019}
+}
+
+@inproceedings{he2021deberta,
+  title     = {{DeBERTa}: Decoding-enhanced {BERT} with Disentangled Attention},
+  author    = {He, Pengcheng and Liu, Xiaodong and Gao, Jianfeng and Chen, Weizhu},
+  booktitle = {International Conference on Learning Representations},
+  year      = {2021}
+}
+
+@techreport{radford2019language,
+  title       = {Language Models are Unsupervised Multitask Learners},
+  author      = {Radford, Alec and Wu, Jeffrey and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},
+  institution = {OpenAI},
+  year        = {2019}
+}
+
+@inproceedings{zha2023alignscore,
+  title     = {{AlignScore}: Evaluating Factual Consistency with a Unified Alignment Function},
+  author    = {Zha, Yuheng and Yang, Yichi and Li, Ruichen and Hu, Zhiting},
+  booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics},
+  year      = {2023}
+}
+
+@inproceedings{zhang2020bertscore,
+  title     = {{BERTScore}: Evaluating Text Generation with {BERT}},
+  author    = {Zhang, Tianyi and Kishore, Varsha and Wu, Felix and Weinberger, Kilian Q. and Artzi, Yoav},
+  booktitle = {International Conference on Learning Representations},
+  year      = {2020}
+}
+
+@inproceedings{hu2022lora,
+  title     = {{LoRA}: Low-Rank Adaptation of Large Language Models},
+  author    = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
+  booktitle = {International Conference on Learning Representations},
+  year      = {2022}
+}
+
+
+@inproceedings{nicks2024detectors,
+  title     = {Language Model Detectors Are Easily Optimized Against},
+  author    = {Nicks, Charlotte and Mitchell, Eric and Rafailov, Rafael and Sharma, Archit and Manning, Christopher D. and Finn, Chelsea and Ermon, Stefano},
+  booktitle = {International Conference on Learning Representations},
+  year      = {2024}
+}
+
+@inproceedings{hu2023radar,
+  title     = {{RADAR}: Robust {AI}-Text Detection via Adversarial Learning},
+  author    = {Hu, Xiaomeng and Chen, Pin-Yu and Ho, Tsung-Yi},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2023}
+}
+
+
+
+@inproceedings{uchendu2021turingbench,
+  title     = {{TURINGBENCH}: A Benchmark Environment for {Turing} Test in the Age of Neural Text Generation},
+  author    = {Uchendu, Adaku and Ma, Zeyu and Le, Thai and Zhang, Rui and Lee, Dongwon},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2021},
+  year      = {2021}
+}
+
+@inproceedings{dugan2024raid,
+  title     = {{RAID}: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors},
+  author    = {Dugan, Liam and Hwang, Alyssa and Trhl{\'i}k, Filip and Ludan, Josh Magnus and Zhu, Andrew and Xu, Hainiu and Ippolito, Daphne and Callison-Burch, Chris},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics},
+  year      = {2024}
+}
+
+@inproceedings{tramer2016stealing,
+  title     = {Stealing Machine Learning Models via Prediction {APIs}},
+  author    = {Tram{\`e}r, Florian and Zhang, Fan and Juels, Ari and Reiter, Michael K. and Ristenpart, Thomas},
+  booktitle = {25th USENIX Security Symposium},
+  year      = {2016}
+}
+
+@inproceedings{wallace2020imitation,
+  title     = {Imitation Attacks and Defenses for Black-box Machine Translation Systems},
+  author    = {Wallace, Eric and Stern, Mitchell and Song, Dawn},
+  booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2020}
+}
+
+@inproceedings{xing2024alison,
+  title     = {{ALISON}: Fast and Effective Stylometric Authorship Obfuscation},
+  author    = {Xing, Eric and Venkatraman, Saranya and Le, Thai and Lee, Dongwon},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume    = {38},
+  pages     = {19315--19322},
+  year      = {2024},
+  doi       = {10.1609/aaai.v38i17.29901}
+}
+
+@inproceedings{cheng2025sira,
+  title     = {Revealing Weaknesses in Text Watermarking Through Self-Information Rewrite Attacks},
+  author    = {Cheng, Yixin and Guo, Hongcheng and Li, Yangming and Sigal, Leonid},
+  booktitle = {Proceedings of the 42nd International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {267},
+  pages     = {9982--10009},
+  year      = {2025}
+}
+
+@article{wu2026tcf,
+  title   = {Targeted Counterfactual Fingerprinting for Black-Box {LLM} Ownership Verification},
+  author  = {Wu, Yutong and Bai, Xiaofan and Li, Shixin and Hu, Pingyi and Zhou, Ziqi and
+             Wang, Zilong and Ma, Xiaojing and Lu, Songfeng and Li, Yuhong and Xuan, Jin and
+             Wang, Yi and Zhang, Dongmei and Zhu, Bin Benjamin},
+  journal = {arXiv preprint arXiv:2608.08195},
+  year    = {2026}
+}
+
+@article{gao2026trace,
+  title   = {{TRACE}: A Two-Channel Robust Attribution Watermark via Complementary Embeddings
+             for {LLM}-Agent Trajectories},
+  author  = {Gao, Zheng and Li, Xiaoyu and Feng, Xiaoyan and Jiang, Jiaojiao and Song, Yang and
+             Sui, Yulei and Xing, Zhenchang and Zhu, Liming},
+  journal = {arXiv preprint arXiv:2607.08400},
+  year    = {2026}
+}
+
+@inproceedings{ma2026aast,
+  title     = {Aggregation-Aware Synthetic Text Generation Against Authorship Re-Identification},
+  author    = {Ma, Qian and Squicciarini, Anna and Rajtmajer, Sarah},
+  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2026}
+}
+
+@article{sawant2026personalbench,
+  title   = {{PersonalBench}: Measuring the Authorship Gap in {LLM} Personalization},
+  author  = {Sawant, Yash Ganpat},
+  journal = {arXiv preprint arXiv:2608.19746},
+  year    = {2026}
+}
+
+@article{zhang2026sala,
+  title   = {Assessing Deanonymization Risks with Stylometry-Assisted {LLM} Agent},
+  author  = {Zhang, Boyang and Zhang, Yang},
+  journal = {arXiv preprint arXiv:2602.23079},
+  year    = {2026}
+}
+
+@article{malik2026erased,
+  title   = {The Assistant Erased You: Measuring Loss of Authorship Signals in
+             {AI}-Mediated Communication},
+  author  = {Malik, Ushna and Awan, Moiz Sadiq},
+  journal = {arXiv preprint arXiv:2608.00926},
+  year    = {2026}
+}
+
+@article{perrone2026arb,
+  title   = {{ARB}: A Matched Authorship-Rewriting Benchmark Dataset for
+             {AI}-Text Detector Evaluation},
+  author  = {Perrone, Gaetano and Romano, Simon Pietro},
+  journal = {arXiv preprint arXiv:2607.29539},
+  year    = {2026}
+}
+
+@article{cui2026construction,
+  title   = {Construction-Driven Injection: Linguistically-Grounded Edit-Based Code-Mixing
+             Fingerprints for Large Language Models},
+  author  = {Cui, Yongyi and Li, Yue and Jiang, Tianbao and Yi, Xin},
+  journal = {arXiv preprint arXiv:2607.25633},
+  year    = {2026}
+}
+
+@article{carlini2019evaluating,
+  title   = {On Evaluating Adversarial Robustness},
+  author  = {Carlini, Nicholas and Athalye, Anish and Papernot, Nicolas and Brendel, Wieland and
+             Rauber, Jonas and Tsipras, Dimitris and Goodfellow, Ian and Madry, Aleksander and
+             Kurakin, Alexey},
+  journal = {arXiv preprint arXiv:1902.06705},
+  year    = {2019}
+}
+
+% ---- bib\iclr2027_conference.bib ----
+@incollection{Bengio+chapter2007,
+author = {Bengio, Yoshua and LeCun, Yann},
+booktitle = {Large Scale Kernel Machines},
+publisher = {MIT Press},
+title = {Scaling Learning Algorithms Towards {AI}},
+year = {2007}
+}
+
+@article{Hinton06,
+author = {Hinton, Geoffrey E. and Osindero, Simon and Teh, Yee Whye},
+journal = {Neural Computation},
+pages = {1527--1554},
+title = {A Fast Learning Algorithm for Deep Belief Nets},
+volume = {18},
+year = {2006}
+}
+
+@book{goodfellow2016deep,
+title={Deep learning},
+author={Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron and Bengio, Yoshua},
+volume={1},
+year={2016},
+publisher={MIT Press}
 }
