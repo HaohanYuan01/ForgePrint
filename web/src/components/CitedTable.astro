@@ -1,0 +1,69 @@
+---
+import { Picture as AstroPicture } from "astro:assets";
+
+// The table is a rendered image, so its citations cannot be links on their
+// own. These boxes sit on top of the method names and jump to the reference
+// list, the way \citeyearpar does in the PDF. Coordinates are percentages of
+// the image, measured from src/assets/tables/table2.png — re-measure them if
+// that image is re-rendered (see table2-citations.json).
+interface Hit {
+  key: string;
+  label: string;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  maxWidth: string;
+  hits: Hit[];
+}
+const { src, alt, maxWidth, hits } = Astro.props;
+---
+
+<div class="cited-table" style={`max-width:${maxWidth}`}>
+  <AstroPicture
+    src={src}
+    alt={alt}
+    layout="constrained"
+    formats={["avif"]}
+    fit="contain"
+    class="w-full rounded-lg"
+  />
+  {
+    hits.map((h) => (
+      <a
+        class="hit"
+        href={`#bib-${h.key}`}
+        aria-label={`Reference for ${h.label}`}
+        style={`top:${h.top}%;left:${h.left}%;width:${h.width}%;height:${h.height}%`}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .cited-table {
+    position: relative;
+    margin-inline: auto;
+    line-height: 0;
+  }
+  .cited-table :global(img) {
+    display: block;
+  }
+  .hit {
+    position: absolute;
+    border-radius: 3px;
+    transition:
+      background-color 120ms ease,
+      box-shadow 120ms ease;
+  }
+  .hit:hover,
+  .hit:focus-visible {
+    background: rgb(37 99 235 / 0.14);
+    box-shadow: 0 0 0 1px rgb(37 99 235 / 0.45);
+    outline: none;
+  }
+</style>

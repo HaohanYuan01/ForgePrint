@@ -88,6 +88,21 @@ bibliography run is needed — if you add a baseline, add its key there too.
 beside it as `cover-charlotte-day.jpg` — swap the import to change it. The scrim
 that keeps the white header text legible lives in `src/components/Header.astro`.
 
+## The main table's clickable citations
+
+`src/components/CitedTable.astro` overlays anchors on the Table 1 image so its
+method names jump to the reference list, the way `\citeyearpar` does in the PDF.
+The coordinates live in `src/data/table2-citations.ts` and are measured, not
+eyeballed — regenerate them after re-rendering the table:
+
+```bash
+python tools/measure_table_citations.py --preview
+```
+
+`--preview` writes `hits_check.png` with the regions drawn on the table so you
+can confirm they still line up. The script fails loudly if the number of rows it
+finds no longer matches its `CITED` list.
+
 ## Notes
 
 - `src/components/TransferBars.astro` is the per-path chart in the open-to-commercial

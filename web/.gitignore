@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # local tooling
 .claude/
+
+# scratch output from tools/measure_table_citations.py
+hits_check.png

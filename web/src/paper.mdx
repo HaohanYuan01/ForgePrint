@@ -12,6 +12,8 @@ import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
 import Wide from "./components/Wide.astro";
 import ScrollableFigure from "./components/ScrollableFigure.astro";
+import CitedTable from "./components/CitedTable.astro";
+import { mainTableCitations } from "./data/table2-citations";
 import Collapsible from "./components/Collapsible.astro";
 import TransferBars from "./components/TransferBars.astro";
 import { RewriteExplorer } from "./components/RewriteExplorer.tsx";
@@ -26,6 +28,7 @@ import cover from "./assets/cover-charlotte-night.jpg";
 // Daytime alternative: ./assets/cover-charlotte-day.jpg
 
 import tableMain from "./assets/tables/table2.png";
+
 import tableQuality from "./assets/tables/table4.png";
 
 <Header
@@ -62,7 +65,7 @@ In short: **text can be made to look like it was written by one model even when 
 
 <Figure>
   <Picture slot="figure" src={figTeaser} alt="Starting from a Claude summary, existing rewriters largely preserve the Claude fingerprint, whereas ForgePrint shifts attribution toward the chosen GPT fingerprint." />
-  <Fragment slot="caption">**Targeted fingerprint transfer.** Existing rewriters largely preserve the Claude fingerprint; ForgePrint shifts attribution toward the chosen GPT fingerprint.</Fragment>
+  <Fragment slot="caption">**Figure 1. Targeted fingerprint transfer.** Existing rewriters largely preserve the Claude fingerprint; ForgePrint shifts attribution toward the chosen GPT fingerprint.</Fragment>
 </Figure>
 
 ## Evading a source is not reaching a target
@@ -73,7 +76,7 @@ The two measures disagree, and evasion is the flattering one. Planner TST and Fo
 
 <Figure>
   <Picture slot="figure" src={figTwoCriteria} maxWidth="26rem" alt="A GPT summary rewritten toward Gemini is classified as Grok: source evasion succeeds, but targeted transfer fails." />
-  <Fragment slot="caption">**The two criteria come apart.** A GPT summary rewritten toward Gemini is classified as Grok. Evasion succeeds; targeted transfer fails.</Fragment>
+  <Fragment slot="caption">**Figure 2. The two criteria come apart.** A GPT summary rewritten toward Gemini is classified as Grok. Evasion succeeds; targeted transfer fails.</Fragment>
 </Figure>
 
 ## How ForgePrint works
@@ -93,8 +96,8 @@ The attacker's surrogate is trained on Corpus A; the four held-out evaluators (R
 
 <Wide>
   <ScrollableFigure minWidth="50rem">
-    <Picture slot="figure" src={tableMain} maxWidth="60rem" alt="Table 2: main results on targeted fingerprint transfer across four domains, comparing six published baselines against the ForgePrint Teacher and the 4B Student." />
-    <Fragment slot="caption">**Table 2. Main results across four domains.** SrcEv and ASR are source evasion and target attack success rate; Align is AlignScore against the source document. Macro₄ averages the four domains; subscripts are document-clustered 95% confidence half-widths.</Fragment>
+    <CitedTable slot="figure" src={tableMain} maxWidth="60rem" hits={mainTableCitations} alt="Table 1: main results on targeted fingerprint transfer across four domains, comparing six published baselines against the ForgePrint Teacher and the 4B Student." />
+    <Fragment slot="caption">**Table 1. Main results across four domains.** SrcEv and ASR are source evasion and target attack success rate; Align is AlignScore against the source document. Macro₄ averages the four domains; subscripts are document-clustered 95% confidence half-widths. Method names link to the references.</Fragment>
   </ScrollableFigure>
 </Wide>
 
@@ -106,10 +109,10 @@ The distilled 4B Student **beats the 26B Teacher it was distilled from** (70.2% 
 
 Placing every method's rewrites into matched faithfulness ranges and re-aggregating leaves a gap of 27.5 points under AlignScore and 28.3 under MiniCheck.
 
-<Collapsible summary="Table 4 — the faithfulness-adjusted numbers">
+<Collapsible summary="Table 2 — the faithfulness-adjusted numbers">
   <ScrollableFigure minWidth="44rem">
-    <Picture slot="figure" src={tableQuality} alt="Table 4: raw and faithfulness-adjusted Macro-4 target ASR across four domains, using AlignScore or MiniCheck to match rewrite faithfulness." />
-    <Fragment slot="caption">**Table 4. Raw and faithfulness-adjusted Macro₄ target ASR.**</Fragment>
+    <Picture slot="figure" src={tableQuality} alt="Table 2: raw and faithfulness-adjusted Macro-4 target ASR across four domains, using AlignScore or MiniCheck to match rewrite faithfulness." />
+    <Fragment slot="caption">**Table 2. Raw and faithfulness-adjusted Macro₄ target ASR.**</Fragment>
   </ScrollableFigure>
 </Collapsible>
 
