@@ -7,9 +7,18 @@ interface Props {
   alt: string;
   priority?: boolean;
   invertInDarkMode?: boolean;
+  /** Cap the rendered width, e.g. "34rem". Figures drawn small in the paper
+      look stretched when blown up to the full text column. */
+  maxWidth?: string;
 }
 
-const { src, alt, priority = false, invertInDarkMode = false } = Astro.props;
+const {
+  src,
+  alt,
+  priority = false,
+  invertInDarkMode = false,
+  maxWidth,
+} = Astro.props;
 
 let image: ImageMetadata;
 
@@ -22,6 +31,7 @@ if (typeof src === "string") {
 
 <AstroPicture
   class={`rounded-lg max-h-[calc(100svh-3rem)] max-w-full w-min mx-auto ${invertInDarkMode ? "dark:invert" : ""}`}
+  style={maxWidth ? `max-width: min(100%, ${maxWidth})` : undefined}
   src={image}
   alt={alt}
   layout="constrained"
