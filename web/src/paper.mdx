@@ -12,6 +12,7 @@ import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
 import Wide from "./components/Wide.astro";
 import ScrollableFigure from "./components/ScrollableFigure.astro";
+import Collapsible from "./components/Collapsible.astro";
 import TransferBars from "./components/TransferBars.astro";
 import { RewriteExplorer } from "./components/RewriteExplorer.tsx";
 
@@ -64,10 +65,6 @@ In short: **text can be made to look like it was written by one model even when 
   <Fragment slot="caption">**Targeted fingerprint transfer.** Existing rewriters largely preserve the Claude fingerprint; ForgePrint shifts attribution toward the chosen GPT fingerprint.</Fragment>
 </Figure>
 
-## Abstract
-
-Model-attribution classifiers can often identify which language model produced a text, making model-specific writing patterns a signal of provenance. Accurate attribution on unmodified text, however, does not show whether the prediction still identifies the original source after deliberate rewriting. We formulate this problem as *targeted fingerprint transfer*: rewriting one model's output so that attribution classifiers assign it to a chosen target model. We study summarization, where different models receive the same document and express the same underlying content, providing a controlled setting for conditional generation. We introduce ForgePrint, a search-then-distil framework that first searches for rewrites that move attribution toward a target fingerprint, then distils the selected rewrites into a one-pass 4B Student model. On CNN/DM, the Student reaches 70.2% target success rate, outperforming both its Teacher (54.1%) and the strongest of six published rewriting baselines (39.3%), against held-out classifiers that are never queried by the attack. It also reaches 68.3% target success when transferring summaries from an open model toward chosen commercial models. These results show that fingerprint detectability should not be conflated with source authenticity, and that text-only attribution can provide misleading evidence of model identity under targeted rewriting, even when it is accurate on unmodified text.
-
 ## Evading a source is not reaching a target
 
 Attacks on authorship and AI-text detectors pursue **source evasion**: any label but the original counts as success. Targeted transfer is harder &mdash; the prediction has to land on the *one* model you chose.
@@ -75,7 +72,7 @@ Attacks on authorship and AI-text detectors pursue **source evasion**: any label
 The two measures disagree, and evasion is the flattering one. Planner TST and ForgePrint-4B differ by **10.5 points of source evasion** but **27.7 points of targeted success** (33.1% vs. 60.8%).
 
 <Figure>
-  <Picture slot="figure" src={figTwoCriteria} alt="A GPT summary rewritten toward Gemini is classified as Grok: source evasion succeeds, but targeted transfer fails." />
+  <Picture slot="figure" src={figTwoCriteria} maxWidth="26rem" alt="A GPT summary rewritten toward Gemini is classified as Grok: source evasion succeeds, but targeted transfer fails." />
   <Fragment slot="caption">**The two criteria come apart.** A GPT summary rewritten toward Gemini is classified as Grok. Evasion succeeds; targeted transfer fails.</Fragment>
 </Figure>
 
@@ -85,7 +82,7 @@ Targeted rewrite supervision does not exist, so ForgePrint builds it offline and
 
 <Wide>
   <Figure>
-    <Picture slot="figure" src={figMethod} alt="ForgePrint pipeline: an offline operator bank, a Teacher that generates and selects candidate rewrites, and a Student distilled with SFT, DPO, and GRPO." />
+    <Picture slot="figure" src={figMethod} maxWidth="66rem" alt="ForgePrint pipeline: an offline operator bank, a Teacher that generates and selects candidate rewrites, and a Student distilled with SFT, DPO, and GRPO." />
     <Fragment slot="caption">**Figure 3. Search, then distil.**</Fragment>
   </Figure>
 </Wide>
@@ -96,7 +93,7 @@ The attacker's surrogate is trained on Corpus A; the four held-out evaluators (R
 
 <Wide>
   <ScrollableFigure minWidth="50rem">
-    <Picture slot="figure" src={tableMain} alt="Table 2: main results on targeted fingerprint transfer across four domains, comparing six published baselines against the ForgePrint Teacher and the 4B Student." />
+    <Picture slot="figure" src={tableMain} maxWidth="70rem" alt="Table 2: main results on targeted fingerprint transfer across four domains, comparing six published baselines against the ForgePrint Teacher and the 4B Student." />
     <Fragment slot="caption">**Table 2. Main results across four domains.** SrcEv and ASR are source evasion and target attack success rate; Align is AlignScore against the source document. Macro₄ averages the four domains; subscripts are document-clustered 95% confidence half-widths.</Fragment>
   </ScrollableFigure>
 </Wide>
@@ -107,14 +104,16 @@ The distilled 4B Student **beats the 26B Teacher it was distilled from** (70.2% 
 
 Placing every method's rewrites into matched faithfulness ranges and re-aggregating leaves a gap of 27.5 points under AlignScore and 28.3 under MiniCheck.
 
-<ScrollableFigure minWidth="44rem">
-  <Picture slot="figure" src={tableQuality} alt="Table 4: raw and faithfulness-adjusted Macro-4 target ASR across four domains, using AlignScore or MiniCheck to match rewrite faithfulness." />
-  <Fragment slot="caption">**Table 4. Raw and faithfulness-adjusted Macro₄ target ASR.**</Fragment>
-</ScrollableFigure>
+<Collapsible summary="Table 4 — the faithfulness-adjusted numbers">
+  <ScrollableFigure minWidth="44rem">
+    <Picture slot="figure" src={tableQuality} alt="Table 4: raw and faithfulness-adjusted Macro-4 target ASR across four domains, using AlignScore or MiniCheck to match rewrite faithfulness." />
+    <Fragment slot="caption">**Table 4. Raw and faithfulness-adjusted Macro₄ target ASR.**</Fragment>
+  </ScrollableFigure>
+</Collapsible>
 
 <Wide>
   <Figure>
-    <Picture slot="figure" src={figPca} alt="PCA projection through a held-out GPT-2 evaluator showing rewrites moving from the source region toward the chosen target region." />
+    <Picture slot="figure" src={figPca} maxWidth="52rem" alt="PCA projection through a held-out GPT-2 evaluator showing rewrites moving from the source region toward the chosen target region." />
     <Fragment slot="caption">**Figure 4. Directed movement, not just escape.** PCA through a held-out GPT-2 evaluator on CNN/DM; lines connect each summary to its rewrite. The share classified as the intended target rises from 44% to 66% to 78%.</Fragment>
   </Figure>
 </Wide>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  summary: string;
+}
+const { summary } = Astro.props;
+---
+
+<details class="not-prose my-8 rounded-xl border border-zinc-300 dark:border-zinc-700">
+  <summary
+    class="cursor-pointer list-none px-4 py-3 text-sm font-medium text-zinc-700 select-none hover:bg-zinc-50 dark:text-zinc-200 dark:hover:bg-zinc-800/50"
+  >
+    <span class="mr-2 inline-block transition-transform">&#9656;</span>{summary}
+  </summary>
+  <div class="border-t border-zinc-200 px-4 dark:border-zinc-800">
+    <slot />
+  </div>
+</details>
+
+<style>
+  details[open] > summary > span {
+    transform: rotate(90deg);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

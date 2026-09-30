@@ -1,0 +1,210 @@
+---
+// Section navigation. A fixed rail on wide screens; a floating panel below
+// that, so the reader can jump instead of scrolling the whole page.
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+interface Props {
+  headings: Heading[];
+}
+const { headings } = Astro.props;
+const items = headings.filter((h) => h.depth === 2);
+---
+
+<nav class="toc-rail not-prose" aria-label="Sections">
+  <ol>
+    {
+      items.map((h) => (
+        <li>
+          <a href={`#${h.slug}`} data-slug={h.slug}>
+            {h.text}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<details class="toc-float not-prose">
+  <summary aria-label="Sections">Contents</summary>
+  <ol>
+    {
+      items.map((h) => (
+        <li>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))
+    }
+  </ol>
+</details>
+
+<style>
+  .toc-rail {
+    position: fixed;
+    top: 50%;
+    right: 1.5rem;
+    z-index: 40;
+    display: none;
+    width: 11rem;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    line-height: 1.35;
+    /* Stays out of the way until the cover header has scrolled past; grey
+       links over the photo are unreadable and the header already names the
+       paper. */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+  }
+  .toc-rail.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @media (min-width: 1280px) {
+    .toc-rail {
+      display: block;
+    }
+  }
+  .toc-rail ol,
+  .toc-float ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .toc-rail li {
+    margin: 0;
+  }
+  .toc-rail a {
+    display: block;
+    border-left: 2px solid transparent;
+    padding: 0.3rem 0 0.3rem 0.6rem;
+    color: var(--color-zinc-500, #71717a);
+    text-decoration: none;
+    transition:
+      color 120ms ease,
+      border-color 120ms ease;
+  }
+  .toc-rail a:hover {
+    color: var(--color-zinc-900, #18181b);
+  }
+  .toc-rail a[aria-current="true"] {
+    border-left-color: currentColor;
+    color: var(--color-zinc-900, #18181b);
+    font-weight: 600;
+  }
+  :global(:root[data-theme="dark"]) .toc-rail a:hover,
+  :global(:root[data-theme="dark"]) .toc-rail a[aria-current="true"] {
+    color: #fafafa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .toc-rail a:hover,
+    :global(:root:not([data-theme="light"])) .toc-rail a[aria-current="true"] {
+      color: #fafafa;
+    }
+  }
+
+  .toc-float {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 40;
+    border-radius: 0.75rem;
+    background: #18181b;
+    color: #fafafa;
+    font-size: 0.8125rem;
+    box-shadow: 0 6px 24px rgb(0 0 0 / 0.25);
+  }
+  @media (min-width: 1280px) {
+    .toc-float {
+      display: none;
+    }
+  }
+  .toc-float summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.55rem 1rem;
+    font-weight: 500;
+  }
+  .toc-float summary::-webkit-details-marker {
+    display: none;
+  }
+  .toc-float[open] {
+    max-height: 70svh;
+    overflow-y: auto;
+  }
+  .toc-float ol {
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+    padding: 0.35rem 0;
+  }
+  .toc-float a {
+    display: block;
+    padding: 0.4rem 1rem;
+    color: #e4e4e7;
+    text-decoration: none;
+  }
+  .toc-float a:hover {
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html) {
+      scroll-behavior: smooth;
+    }
+  }
+</style>
+
+<script>
+  // One scroll handler drives both jobs: reveal the rail once the cover header
+  // is out of the way, and mark the section the reader is in. Deliberately no
+  // requestAnimationFrame — a throttle by timestamp keeps working when the tab
+  // is backgrounded and rAF is paused.
+  const rail = document.querySelector<HTMLElement>(".toc-rail");
+  const cover = document.querySelector<HTMLElement>("header");
+  const links = new Map<string, HTMLAnchorElement>();
+  document
+    .querySelectorAll<HTMLAnchorElement>(".toc-rail a[data-slug]")
+    .forEach((a) => links.set(a.dataset.slug!, a));
+  const headings = [...document.querySelectorAll<HTMLElement>("main h2[id]")];
+
+  if (rail && headings.length && links.size) {
+    let last = 0;
+    const update = () => {
+      last = Date.now();
+
+      const past = cover
+        ? window.scrollY > cover.offsetTop + cover.offsetHeight - 80
+        : window.scrollY > 200;
+      rail.classList.toggle("is-visible", past);
+
+      const line = window.scrollY + window.innerHeight * 0.3;
+      let active = headings[0];
+      for (const h of headings) {
+        if (h.offsetTop <= line) active = h;
+        else break;
+      }
+      for (const [slug, a] of links) {
+        a.setAttribute("aria-current", String(active?.id === slug));
+      }
+    };
+
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const onScroll = () => {
+      const since = Date.now() - last;
+      if (since >= 100) return update();
+      clearTimeout(timer);
+      timer = setTimeout(update, 100 - since);
+    };
+
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll);
+    update();
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>(".toc-float a").forEach((a) => {
+    a.addEventListener("click", () => {
+      a.closest("details")?.removeAttribute("open");
+    });
+  });
+</script>
