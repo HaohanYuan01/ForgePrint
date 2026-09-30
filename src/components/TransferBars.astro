@@ -1,0 +1,310 @@
+---
+// Per-path targeted transfer from a Gemma-authored summary to each chosen
+// commercial target. Numbers are Appendix G (tab_gemma_source_targeted.tex),
+// Gemma-5 five-class evaluator on CNN/DM, n=200 per path.
+interface Row {
+  path: string;
+  target: string;
+  teacher: number;
+  student: number;
+  macro?: boolean;
+}
+
+const rows: Row[] = [
+  { path: "Gemma", target: "Claude", teacher: 35.8, student: 49.6 },
+  { path: "Gemma", target: "GPT", teacher: 17.3, student: 64.6 },
+  { path: "Gemma", target: "Gemini", teacher: 50.1, student: 77.3 },
+  { path: "Gemma", target: "Grok", teacher: 36.1, student: 81.5 },
+  { path: "Macro", target: "", teacher: 34.8, student: 68.3, macro: true },
+];
+
+const series = [
+  { key: "teacher" as const, label: "ForgePrint Teacher", cls: "b-teacher" },
+  { key: "student" as const, label: "ForgePrint-4B", cls: "b-student" },
+];
+
+const ticks = [0, 25, 50, 75, 100];
+---
+
+<figure class="viz-root not-prose my-8">
+  <figcaption class="viz-head">
+    <span class="viz-title">Targeted success per path (%)</span>
+    <span class="viz-legend">
+      {
+        series.map((s) => (
+          <span class="key">
+            <i class:list={["swatch", s.cls]} />
+            {s.label}
+          </span>
+        ))
+      }
+    </span>
+  </figcaption>
+
+  <div class="viz-rows">
+    {
+      rows.map((row) => (
+        <div class:list={["row", row.macro && "is-macro"]}>
+          <div class="row-label">
+            {row.macro ? (
+              <span class="m">Macro</span>
+            ) : (
+              <span class="m">
+                {row.path} <span class="arrow">&rarr;</span> {row.target}
+              </span>
+            )}
+          </div>
+          <div class="row-bars">
+            {series.map((s) => (
+              <div class="bar-line">
+                <div
+                  class:list={["bar", s.cls]}
+                  style={`--w:${row[s.key]}%`}
+                  data-tip={`${row.macro ? "Macro" : `${row.path} → ${row.target}`} — ${s.label} ${row[s.key]}%`}
+                />
+                <span class="val">{row[s.key]}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="viz-axis">
+    <div class="axis-spacer"></div>
+    <div class="axis-scale">{ticks.map((t) => <span class="tick">{t}</span>)}</div>
+  </div>
+
+  <p class="viz-note">
+    Five-class evaluator that also includes Gemma, so a rewrite has to leave the
+    true source <em>and</em> arrive at the chosen target. Not on the four-class
+    scale of Table 2.
+  </p>
+
+  <div class="viz-tip" role="status" aria-live="polite"></div>
+</figure>
+
+<style>
+  /* Palette slots and surfaces follow the data-viz reference palette. Dark
+     values are declared under both the OS media query and the theme attribute
+     so a theme stamp wins either way. */
+  .viz-root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --surface-line: #e4e4e2;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #77766f;
+    --s-student: #2a78d6;
+    --s-teacher: #eb6834;
+    --macro-tint: #e8f0f9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1: #1a1a19;
+      --surface-line: #33332f;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #96958c;
+      --s-student: #3987e5;
+      --s-teacher: #d95926;
+      --macro-tint: #1f2937;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-line: #33332f;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #96958c;
+    --s-student: #3987e5;
+    --s-teacher: #d95926;
+    --macro-tint: #1f2937;
+  }
+
+  .viz-root {
+    position: relative;
+    background: var(--surface-1);
+    border: 1px solid var(--surface-line);
+    border-radius: 0.75rem;
+    padding: 1rem 1.15rem 0.9rem;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+  }
+
+  .viz-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.9rem;
+  }
+  .viz-title {
+    font-weight: 600;
+  }
+  .viz-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+  }
+  .key {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .swatch {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 0.2rem;
+  }
+  .b-student.swatch,
+  .bar.b-student {
+    background: var(--s-student);
+  }
+  .b-teacher.swatch,
+  .bar.b-teacher {
+    background: var(--s-teacher);
+  }
+
+  .viz-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.3rem;
+  }
+  .row.is-macro {
+    margin-top: 0.2rem;
+    border-top: 1px solid var(--surface-line);
+    padding-top: 0.5rem;
+    background: var(--macro-tint);
+    font-weight: 600;
+  }
+  .row-label {
+    text-align: right;
+    line-height: 1.25;
+  }
+  .row-label .m {
+    font-weight: 500;
+  }
+  .row.is-macro .row-label .m {
+    font-weight: 700;
+  }
+  .arrow {
+    color: var(--text-muted);
+  }
+
+  /* Bar width is the encoding: no minimum width, labels outside the data-end. */
+  .row-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .bar-line {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .bar {
+    width: var(--w);
+    height: 0.8rem;
+    border-radius: 0 4px 4px 0;
+    transition: filter 120ms ease;
+  }
+  .bar:hover {
+    filter: brightness(1.12);
+  }
+  .val {
+    flex: none;
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+  }
+
+  .viz-axis {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: 0.75rem;
+    margin-top: 0.4rem;
+    padding: 0 0.3rem;
+  }
+  .axis-scale {
+    margin-right: 2.1rem;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--surface-line);
+    padding-top: 0.2rem;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .viz-note {
+    margin: 0.9rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .viz-tip {
+    position: absolute;
+    z-index: 10;
+    display: none;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.3rem;
+    background: var(--text-primary);
+    color: var(--surface-1);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .viz-tip.is-open {
+    display: block;
+  }
+
+  @media (max-width: 40rem) {
+    .row,
+    .viz-axis {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+    .row-label {
+      text-align: left;
+    }
+    .axis-spacer {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Per-mark hover tooltip. Pointer only; every bar also carries a visible value.
+  document.querySelectorAll<HTMLElement>(".viz-root").forEach((root) => {
+    const tip = root.querySelector<HTMLElement>(".viz-tip");
+    if (!tip) return;
+    root.querySelectorAll<HTMLElement>(".bar").forEach((bar) => {
+      bar.addEventListener("pointerenter", () => {
+        tip.textContent = bar.dataset.tip ?? "";
+        tip.classList.add("is-open");
+      });
+      bar.addEventListener("pointermove", (event) => {
+        const box = root.getBoundingClientRect();
+        tip.style.left = `${event.clientX - box.left + 12}px`;
+        tip.style.top = `${event.clientY - box.top - 30}px`;
+      });
+      bar.addEventListener("pointerleave", () => tip.classList.remove("is-open"));
+    });
+  });
+</script>

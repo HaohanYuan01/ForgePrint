@@ -1,0 +1,21 @@
+---
+// Wide tables rendered from the paper stay legible on narrow screens by
+// scrolling horizontally instead of shrinking to nothing.
+interface Props {
+  minWidth?: string;
+}
+const { minWidth = "44rem" } = Astro.props;
+---
+
+<figure class="not-prose my-8">
+  <div class="overflow-x-auto">
+    <div style={`min-width:${minWidth}`}>
+      <slot name="figure" />
+    </div>
+  </div>
+  <figcaption
+    class="mt-3 text-center text-sm text-zinc-600 dark:text-zinc-400 [&_a]:underline"
+  >
+    <slot name="caption" />
+  </figcaption>
+</figure>

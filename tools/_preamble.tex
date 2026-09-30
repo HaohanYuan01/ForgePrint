@@ -1,0 +1,39 @@
+% Shared preamble for rendering the paper's original tables to images.
+% Macros and colours are copied from ../../preamble.tex so the output matches
+% the paper exactly. The table sources themselves are \input verbatim.
+\usepackage{times}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{capt-of}
+\pagestyle{empty}
+
+\newcommand{\method}{\textsc{ForgePrint}}
+\definecolor{dropred}{HTML}{B3352B}
+\definecolor{cigrey}{HTML}{8A8A8A}
+\definecolor{ourrow}{HTML}{E8F0F9}
+\providecommand{\blk}[1]{\textit{\textcolor{black!70}{#1}}}
+\providecommand{\ph}{\textcolor{black!30}{--}}
+\providecommand{\dn}[1]{\raisebox{-0.75ex}{\tiny\textcolor{dropred}{$-$#1}}}
+\providecommand{\ci}[1]{{\tiny\textcolor{cigrey}{$\pm$#1}}}
+
+% \citeyearpar{key} -> (year), taken from ../../bib/*.bib
+\makeatletter
+\providecommand{\citeyearpar}[1]{(\@nameuse{cyp@#1})}
+\newcommand{\cypdef}[2]{\expandafter\def\csname cyp@#1\endcsname{#2}}
+\makeatother
+\cypdef{krishna2023paraphrasing}{2023}
+\cypdef{horvitz2024tinystyler}{2024}
+\cypdef{reif2022recipe}{2022}
+\cypdef{suzgun2022promptrerank}{2022}
+\cypdef{zhang2025decoupled}{2025}
+\cypdef{david2025authormist}{2025}
+\cypdef{gong2019rl}{2019}
+
+% Render the tabular only: the float, caption and label become no-ops, so the
+% caption can live as selectable HTML text on the web page instead.
+\renewenvironment{table}[1][]{\par\noindent\ignorespaces}{\par}
+\renewcommand{\caption}[2][]{}
+\renewcommand{\label}[1]{}
+\providecommand{\ref}[1]{}
