@@ -76,84 +76,86 @@ In short: **text can be made to look like it was written by one model even when 
 
 <Figure>
   <Picture slot="figure" src={figTeaser} alt="Starting from a Claude summary, existing rewriters largely preserve the Claude fingerprint, whereas ForgePrint shifts attribution toward the chosen GPT fingerprint." />
-  <Fragment slot="caption">**Figure 1. Targeted fingerprint transfer.** Existing rewriters largely preserve the Claude fingerprint; ForgePrint shifts attribution toward the chosen GPT fingerprint.</Fragment>
+  <Fragment slot="caption">**Figure 1. The task: targeted rewriting.** Put through existing rewriters, a Claude summary still reads as Claude. ForgePrint moves it to GPT &mdash; the model we chose.</Fragment>
 </Figure>
 
 ## Evading a source is not reaching a target
 
-Attacks on authorship and AI-text detectors pursue **source evasion**: any label but the original counts as success. Targeted transfer is harder &mdash; the prediction has to land on the *one* model you chose.
+Most work on fooling these detectors only asks the text to stop looking like its real source &mdash; any other answer counts as a win. Landing on the *one* model you picked is much harder.
 
-The two measures disagree, and evasion is the flattering one. Planner TST and ForgePrint-4B differ by **10.5 points of source evasion** but **27.7 points of targeted success** (33.1% vs. 60.8%).
+The two goals sound similar and score very differently. Planner TST and ForgePrint-4B are **10.5 points apart** at simply escaping the source, but **27.7 points apart** at reaching the intended target (33.1% vs. 60.8%).
 
 <Figure>
   <Picture slot="figure" src={figTwoCriteria} maxWidth="26rem" alt="A GPT summary rewritten toward Gemini is classified as Grok: source evasion succeeds, but targeted transfer fails." />
-  <Fragment slot="caption">**Figure 2. The two criteria come apart.** A GPT summary rewritten toward Gemini is classified as Grok. Evasion succeeds; targeted transfer fails.</Fragment>
+  <Fragment slot="caption">**Figure 2. Escaping is not arriving.** A GPT summary rewritten toward Gemini comes out looking like Grok: it left its real source, but missed the model it was aimed at.</Fragment>
 </Figure>
 
 ## How ForgePrint works
 
-Targeted rewrite supervision does not exist, so ForgePrint builds it offline and then distils it. For each source&rarr;target path, a frozen bank of rewrite operators is kept only where it raises a surrogate's target margin; a Teacher combines those operators with retrieved examples to generate and rank candidates; a 4B Student learns the selected rewrites through SFT, DPO, and GRPO ranked **by factuality first and target margin second**. At deployment the Student sees only the source summary and the two model names &mdash; one forward pass, no operator bank, no surrogate, no access to the original document.
+No corpus of paired rewrites exists &mdash; one model's text rewritten to look like another's &mdash; so ForgePrint builds its own. For each source&rarr;target pair it assembles editing operators (drop a habit of the source, adopt one of the target's, reshape the sentences) and keeps only those that measurably move a **surrogate** classifier, a stand-in it trains itself, toward the target. A large **Teacher** applies them, generates several candidate rewrites and selects the best. A 4B **Student** is distilled from those, then refined on its own output, ranked **by factual accuracy first and target resemblance second**, so it cannot succeed by quietly altering what the text says.
+
+Only the Student is deployed. Given the text and the two model names it rewrites in a single pass &mdash; no operator bank, no surrogate, no access to the original article.
 
 <Wide>
   <Figure>
     <Picture slot="figure" src={figMethod} maxWidth="66rem" alt="ForgePrint pipeline: an offline operator bank, a Teacher that generates and selects candidate rewrites, and a Student distilled with SFT, DPO, and GRPO." />
-    <Fragment slot="caption">**Figure 3. Search, then distil.**</Fragment>
+    <Fragment slot="caption">**Figure 3. How the rewriter is built.**</Fragment>
   </Figure>
 </Wide>
 
 ## Results
 
-The attacker's surrogate is trained on Corpus A; the four held-out evaluators (RoBERTa, DeBERTa, GPT-2, TF-IDF) are trained only on Corpus B and are **never queried by the attack**. The two corpora share no documents.
+The attack never sees what grades it. It is developed against its own surrogate, trained on one half of the data. Every number below comes from four **held-out** classifiers &mdash; RoBERTa, DeBERTa, GPT-2 and TF-IDF, trained on the other half, which shares no documents with the first &mdash; and **the attack never queries them**.
 
 <Wide>
   <ScrollableFigure minWidth="50rem">
     <CitedTable slot="figure" src={tableMain} maxWidth="60rem" hits={mainTableCitations} alt="Table 1: main results on targeted fingerprint transfer across four domains, comparing six published baselines against the ForgePrint Teacher and the 4B Student." />
-    <Fragment slot="caption">**Table 1. Main results across four domains.** SrcEv and ASR are source evasion and target attack success rate; Align is AlignScore against the source document. Macro₄ averages the four domains; subscripts are document-clustered 95% confidence half-widths. Method names link to the references.</Fragment>
+    <Fragment slot="caption">**Table 1. Main results, on all four kinds of text.** SrcEv is how often the rewrite escapes its real source, ASR how often it reaches the target we picked, Align how well it still matches the source document. Macro₄ averages the four; the small ± figures are 95% confidence half-widths. Method names link to the references.</Fragment>
   </ScrollableFigure>
 </Wide>
 
-The distilled 4B Student **beats the 26B Teacher it was distilled from** (70.2% vs. 54.1% on CNN/DM), because GRPO refines it on its own generations instead of only imitating the Teacher. The ordering holds across all four domains and all four evaluator architectures.
+The 4B Student **beats the 26B Teacher it learned from** (70.2% vs. 54.1% on news), because its last training stage lets it practise on its own rewrites instead of only copying the Teacher. The ordering holds across all four kinds of text &mdash; news, research papers, dialogue and how-to guides &mdash; and all four classifiers.
 
-### The gain is not bought with unfaithful rewrites
+### The gain is not a loss of faithfulness
 
-Placing every method's rewrites into matched faithfulness ranges and re-aggregating leaves a gap of 27.5 points under AlignScore and 28.3 under MiniCheck.
+A rewrite that quietly altered the content would score well and mean nothing. Compared only against rewrites of matched faithfulness, the lead over the strongest published method holds at **27.5 points** under AlignScore and **28.3** under MiniCheck.
 
 <Collapsible summary="Table 2 — the faithfulness-adjusted numbers">
   <ScrollableFigure minWidth="44rem">
     <Picture slot="figure" src={tableQuality} alt="Table 2: raw and faithfulness-adjusted Macro-4 target ASR across four domains, using AlignScore or MiniCheck to match rewrite faithfulness." />
-    <Fragment slot="caption">**Table 2. Raw and faithfulness-adjusted Macro₄ target ASR.**</Fragment>
+    <Fragment slot="caption">**Table 2. Success rate before and after holding faithfulness constant.**</Fragment>
   </ScrollableFigure>
 </Collapsible>
 
 <Wide>
   <Figure>
     <Picture slot="figure" src={figPca} maxWidth="52rem" alt="PCA projection through a held-out GPT-2 evaluator showing rewrites moving from the source region toward the chosen target region." />
-    <Fragment slot="caption">**Figure 4. Directed movement, not just escape.** PCA through a held-out GPT-2 evaluator on CNN/DM; lines connect each summary to its rewrite. The share classified as the intended target rises from 44% to 66% to 78%.</Fragment>
+    <Fragment slot="caption">**Figure 4. A map of what the classifier sees.** Each summary is placed by the writing features a held-out classifier reads from it, flattened to two dimensions (PCA); a line joins each summary to its rewrite. The rewrites do not merely drift away from the source &mdash; they travel toward the target. The share landing on the intended model rises from 44% to 66% to 78%.</Fragment>
   </Figure>
 </Wide>
 
 ## Which target you aim at matters more than where you start
 
-Claude is the hardest target at 39.7% mean ASR against 64.1&ndash;70.3% for the others, and that difficulty swings by domain &mdash; transfer to Claude ranges from **5% on ArXiv to 70% on CNN/DM**. Across the 48 path-by-domain cells, the target explains **82.6%** of the path effect, leaving 17.4% to the source.
+Claude is the hardest model to imitate, reached 39.7% of the time on average against 64.1&ndash;70.3% for the others &mdash; and how hard it is depends on what is being written: aiming at Claude works **5% of the time on research-paper summaries and 70% on news**. Which model you aim at accounts for **82.6%** of the difference between one rewriting job and another; which model you start from accounts for the other 17.4%.
 
 <Figure>
   <Picture slot="figure" src={figTargetDomain} maxWidth="32rem" alt="Heatmap of target ASR by target model and domain: Claude is hardest at 39.7% mean, Grok easiest at 70.3%." />
-  <Fragment slot="caption">**Figure 5. Target ASR (%) of ForgePrint-4B** per target and domain.</Fragment>
+  <Fragment slot="caption">**Figure 5. How often the rewrite reaches each target**, by kind of text.</Fragment>
 </Figure>
 
 ## From an open model to a chosen commercial one
 
-Gemma-4-26B-A4B writes the original CNN/DM summaries and the rewrite is aimed at one named commercial model. Every path starts near zero &mdash; an unmodified Gemma summary is almost never mistaken for Claude (0.1%) or Grok (0.5%) &mdash; and ends between **49.6% and 81.5%**.
+Here an open model, Gemma, writes the news summaries, and the rewrite aims them at one named commercial model. Left alone, a Gemma summary is almost never mistaken for Claude (0.1%) or Grok (0.5%). After rewriting, it passes for the chosen model between **49.6% and 81.5%** of the time.
 
 <TransferBars />
 
-The Student also beats its Teacher on three of the four paths, most sharply on Gemma&rarr;GPT (64.6% vs. 17.3%). A Qwen3.5-9B Student reaches 66.7% macro, so the result is not specific to the Gemma family.
+The Student beats its Teacher on three of the four targets, most sharply on GPT (64.6% vs. 17.3%). A Student built on a different backbone, Qwen3.5-9B, reaches 66.7% on average, so this is not specific to the Gemma family.
 
 ## Case study
 
 <RewriteExplorer client:visible variant="success" />
 
-The Student is not copying Gemini's words but its *discourse shape*: two long sentences become four short ones with a single point each, opened by a framing sentence, with incidental detail dropped. The baseline instead adds exclamations and evaluative adjectives &mdash; and leaks the trailing brace of its own prompt template.
+The Student is not copying Gemini's words but the way it arranges them: two long sentences become four short ones making one point each, a framing sentence opens the piece, and incidental detail is dropped. The strongest published method instead reaches for exclamations and evaluative adjectives &mdash; and leaves behind a stray bracket from its own prompt template.
 
 ## Takeaways
 
@@ -163,7 +165,7 @@ The Student is not copying Gemini's words but its *discourse shape*: two long se
 
 ## Ethics and release
 
-Targeted rewriting is dual-use, so we keep the experiments contained: everything runs offline on generated summaries and offline classifiers, we query commercial APIs only to produce summaries, and we never test impersonation against a deployed service.
+Targeted rewriting is dual-use &mdash; the capability that measures the weakness is the one that exploits it &mdash; so we keep the experiments contained: everything runs offline on generated summaries and offline classifiers, we query commercial APIs only to produce summaries, and we never test impersonation against a deployed service.
 
 Our code and evaluation suite will be released at [github.com/HaohanYuan01/ForgePrint](https://github.com/HaohanYuan01/ForgePrint). The trained rewriter is available on request under the terms of the Ethics Statement.
 
