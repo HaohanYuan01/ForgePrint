@@ -144,10 +144,9 @@ The Student is not copying Gemini's words but its *discourse shape*: two long se
 
 ## Takeaways
 
-- **High accuracy on unmodified text does not certify a source.** 85.9% accuracy coexists with 60.8% targeted redirection.
-- **Source evasion overstates robustness.** 10.5 points of evasion hid 27.7 points of targeted control.
-- **The weakness is asymmetric.** A provenance claim about one model can be far easier to forge than the same claim about another, and that shifts by domain.
-- **Watermarks and signed model identity are unaffected.** They bind identity to an execution trace rather than to style. Text-only attribution is circumstantial evidence, not proof of origin.
+- **A classifier can be right most of the time and still be wrong about where a particular text began.** Our held-out classifiers reach 85.9% accuracy on unchanged summaries, but ForgePrint achieves a **70.2% attack success rate** on CNN/DailyMail while preserving their meaning.
+- **Simply making a source label disappear is not the same as choosing a new one.** Looking only at evasion hides the gap: a 10.5-point difference in evasion becomes a **27.7-point difference** when the goal is to redirect attribution to a specific model.
+- **This exposes a real-world substitution threat:** a provider could serve a small open-source model while making its outputs look like they came from a commercial API. Using a 4B rewriter, we move open-model outputs toward a chosen commercial-model label with a **68.3% attack success rate**.
 
 ## Ethics and release
 
