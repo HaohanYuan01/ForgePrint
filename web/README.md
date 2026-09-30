@@ -88,6 +88,25 @@ bibliography run is needed — if you add a baseline, add its key there too.
 beside it as `cover-charlotte-day.jpg` — swap the import to change it. The scrim
 that keeps the white header text legible lives in `src/components/Header.astro`.
 
+## References
+
+`bibliography.bib` is generated from the paper's `bib/`, never edited by hand:
+
+```bash
+python tools/build_bibliography.py ../../bib
+```
+
+It drops `editor`, `publisher`, `address` and `month`. The paper's bib mixes
+full ACL Anthology entries carrying those fields with minimal ones that do not;
+BibTeX styles paper over the difference, the APA CSL used here does not, so the
+same kind of venue rendered two different ways. The paper's own reference list
+has the same asymmetry — this only normalises the web copy.
+
+The page has no inline citations: Table 1's method names link to the references
+instead. `rehype-citation` cannot see those links, so the keys are listed under
+`noCite` in the `src/paper.mdx` frontmatter. Drop a key there and its entry
+disappears from the page.
+
 ## The main table's clickable citations
 
 `src/components/CitedTable.astro` overlays anchors on the Table 1 image so its

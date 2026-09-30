@@ -4,6 +4,17 @@ theme: device
 favicon: favicon.svg
 description: "Text can be made to look like it was written by one model even when another generated it. Classifiers that are 85.9% accurate on unmodified responses are steered to a chosen target model 60.8% of the time."
 thumbnail: thumbnail.png
+
+# Works cited only by the links overlaid on Table 1, which rehype-citation
+# cannot see. Without this the reference list would come out empty.
+noCite:
+  - "@krishna2023paraphrasing"
+  - "@horvitz2024tinystyler"
+  - "@reif2022recipe"
+  - "@suzgun2022promptrerank"
+  - "@zhang2025decoupled"
+  - "@david2025authormist"
+  - "@gong2019rl"
 ---
 
 import Header from "./components/Header.astro";
@@ -100,8 +111,6 @@ The attacker's surrogate is trained on Corpus A; the four held-out evaluators (R
     <Fragment slot="caption">**Table 1. Main results across four domains.** SrcEv and ASR are source evasion and target attack success rate; Align is AlignScore against the source document. Macro₄ averages the four domains; subscripts are document-clustered 95% confidence half-widths. Method names link to the references.</Fragment>
   </ScrollableFigure>
 </Wide>
-
-The six published baselines are DIPPER [@krishna2023paraphrasing] and TinyStyler [@horvitz2024tinystyler] as released rewriters, zero-shot and augmented zero-shot TST [@reif2022recipe], 5-shot FC [@suzgun2022promptrerank], and Planner TST [@zhang2025decoupled]; AuthorMist-T [@david2025authormist] and style-reward RL [@gong2019rl] are the two RL controls trained on the same 4B backbone as the Student.
 
 The distilled 4B Student **beats the 26B Teacher it was distilled from** (70.2% vs. 54.1% on CNN/DM), because GRPO refines it on its own generations instead of only imitating the Teacher. The ordering holds across all four domains and all four evaluator architectures.
 
