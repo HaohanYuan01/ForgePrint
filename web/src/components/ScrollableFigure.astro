@@ -14,7 +14,7 @@ const { minWidth = "44rem" } = Astro.props;
     </div>
   </div>
   <figcaption
-    class="mt-3 text-center text-sm text-zinc-600 dark:text-zinc-400 [&_a]:underline"
+    class="mx-auto max-w-[var(--maximum-text-width)] mt-3 text-center text-sm text-zinc-600 dark:text-zinc-400 [&_a]:underline"
   >
     <slot name="caption" />
   </figcaption>
