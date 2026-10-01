@@ -9,18 +9,18 @@ Project page for **Forging LLM Authorship Fingerprints with Targeted Rewriting**
 
 Built with [Roman Hauksson's academic project page template](https://github.com/RomanHauksson/academic-project-astro-template) (Astro + Tailwind + MDX). Content lives in a single file: `src/paper.mdx`.
 
-## Before you publish
+## Still open
 
-Search for these and fill them in:
-
-| What | Where | Current value |
+| What | Where | Note |
 | --- | --- | --- |
-| arXiv link | `src/paper.mdx`, `<Header links>` | `url: "#"` |
-| arXiv ID in the BibTeX | `src/paper.mdx`, BibTeX block | `ARXIV_ID` |
-| Repo name in the paper | `sections/09_statements` and the Ethics section here | paper still says `github.com/TODO/ForgePrint` |
-| Publication venue | `src/paper.mdx`, `<Header>` | no `conference` prop set yet |
+| Code button | `src/paper.mdx`, `<Header links>` | reads "Code (coming soon)" and points at this repo; drop the qualifier once code lands |
+| Publication venue | `src/paper.mdx`, `<Header>` | no `conference` prop set |
 
-`public/forgeprint-paper.pdf` is a copy of `main.pdf`. Re-copy it whenever the paper changes.
+arXiv is live at <https://arxiv.org/abs/2609.38831>; the header link and both
+BibTeX blocks carry the id.
+
+`public/forgeprint-paper.pdf` is the arXiv build of the paper. Re-copy it
+whenever the paper changes.
 
 ## Run locally
 

@@ -4,7 +4,7 @@ Forging LLM Authorship Fingerprints with Targeted Rewriting
 
 Haohan Yuan, Simin Chen, Xi Niu, Hanqing Guo, Depeng Xu, Haopeng Zhang
 
-**Project page: https://haohanyuan01.github.io/ForgePrint/**
+**Paper:** <https://arxiv.org/abs/2609.38831> &nbsp;·&nbsp; **Project page:** <https://haohanyuan01.github.io/ForgePrint/>
 
 Model-attribution classifiers can identify which LLM produced a text, and on
 unmodified summaries our evaluator suites are 85.9% accurate. That accuracy does
@@ -23,6 +23,9 @@ queries. Fingerprint detectability is not source authenticity.
 
 ## Release status
 
+**Code: coming soon.** Nothing is published in this repository yet beyond the
+project page under `web/`.
+
 Our code and evaluation suite will be released here. This will cover the
 evaluator checkpoints, the frozen evaluation protocol, the scoring scripts, and
 the per-evaluator predictions, so the reported results can be audited and
@@ -38,7 +41,7 @@ Statement in the paper.
   title         = {Forging LLM Authorship Fingerprints with Targeted Rewriting},
   author        = {Yuan, Haohan and Chen, Simin and Niu, Xi and Guo, Hanqing and Xu, Depeng and Zhang, Haopeng},
   year          = {2026},
-  eprint        = {ARXIV_ID},
+  eprint        = {2609.38831},
   archivePrefix = {arXiv},
   primaryClass  = {cs.CL}
 }
